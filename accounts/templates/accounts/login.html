@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - Library Management System</title>
+</head>
+<body>
+    <div style="width: 400px; margin: 50px auto; font-family: Arial;">
+        <h2>Login to Your Account</h2>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" style="padding: 10px 20px; background-color: #842e4d; color: white; border: none; cursor: pointer;">Login</button>
+        </form>
+        <p style="margin-top: 15px;">Don't have an account? <a href="{% url 'signup' %}">Sign Up</a></p>
+    </div>
+</body>
+</html>

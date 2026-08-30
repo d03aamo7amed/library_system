@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up - Library Management System</title>
+</head>
+<body style="background-color: #f9f9f9; font-family: Arial, sans-serif;">
+    <div style="width: 400px; margin: 80px auto; padding: 30px; background: white; border-radius: 8px; box-shadow: 0px 4px 10px rgba(0,0,0,0.1);">
+        <h2 style="text-align: center; color: #61152a; margin-bottom: 20px;">Create a New Account</h2>
+        
+        <form method="POST">
+            {% csrf_token %}
+            
+        
+
+            {% for field in form %}
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: bold; color: #824254;">{{ field.label }}</label>
+                    <div style="width: 100%;">
+                        {{ field }}
+                    </div>
+                    {% if field.errors %}
+                        <div style="color: red; font-size: 12px; margin-top: 3px;">{{ field.errors.0 }}</div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+
+            <button type="submit" style="width: 100%; padding: 12px; background-color: #944665; color: rgb(250, 249, 249); border: none; border-radius: 4px; font-size: 16px; cursor: pointer; margin-top: 10px;">Sign Up</button>
+        </form>
+    
+
+
+        <p style="text-align: center; margin-top: 20px; color: #666;">Already have an account? <a href="{% url 'login' %}" style="color: #2196F3; text-decoration: none;">Login</a></p>
+    </div>
+</body>
+</html>
