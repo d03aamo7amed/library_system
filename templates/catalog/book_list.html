@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}Library Catalog - Library Management System{% endblock %}
+
+{% block content %}
+<main class="catalog-container">
+    <h1>Library Catalog</h1>
+
+    <!-- Search Box -->
+    <div class="search-box">
+        <input type="text" id="bookSearch" placeholder="Search by title or author...">
+    </div>
+
+    <!-- Books Container -->
+    <div class="books-container">
+        {% for book in books %}
+        <div class="book-card">
+            <h2 class="book-title">{{ book.title }}</h2>
+
+            <p>
+                <strong>Author:</strong> <span class="book-author">{{ book.author }}</span>
+            </p>
+
+            <p>
+                <strong>Category:</strong> {{ book.category }}
+            </p>
+
+            <p>
+                <strong>Available:</strong> {{ book.available_copies }} / {{ book.total_copies }}
+            </p>
+
+            {% if book.available_copies > 0 %}
+                <form action="{% url 'borrow_book' book.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="borrow-btn">Borrow</button>
+                </form>
+            {% else %}
+                <button class="borrow-btn" disabled style="background-color: #ccc; cursor: not-allowed;">Out of Stock</button>
+            {% endif %}
+        </div>
+        {% empty %}
+        <p class="no-books">No books available in the catalog right now.</p>
+        {% endfor %}
+    </div>
+
+</main>
+{% endblock %}

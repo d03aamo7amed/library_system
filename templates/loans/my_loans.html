@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}My Loans - Library Management System{% endblock %}
+
+{% block content %}
+<main class="loans-container">
+    <h1>My Borrowed Books</h1>
+
+    <!-- Page Header -->
+<div class="page-header">
+    <p>Manage your active loans and return dates</p>
+</div>
+
+   <!-- Loop-->
+    {% for loan in loans %}
+    <div class="loan-card">
+       
+            <!-- Display book details and borrowing information -->
+             <div class="loan-info">
+             <h2>{{ loan.book.title }}</h2>
+             <p><strong>Author:</strong> {{ loan.book.author }}</p>
+
+            <!-- Format the borrow date-->
+            <p><strong>Borrow Date:</strong> {{ loan.borrow_date|date:"Y-m-d" }}</p>
+        </div>
+        
+        <form action="{% url 'return_book' loan.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="return-btn">Return</button>
+        </form>
+    </div>
+    {% empty %}
+    <p class="no-loans">You have not borrowed any books yet.</p>
+    {% endfor %}
+</main>
+{% endblock %}

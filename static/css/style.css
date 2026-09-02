@@ -1,0 +1,264 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+    background: url('library-bg.jpg') no-repeat center center / cover !important;
+    background-attachment: fixed !important;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding-top: 90px; 
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ================================
+   1. Header / Navbar 
+================================ */
+nav, header {
+    background: rgba(15, 23, 42, 0.45) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    padding: 0 40px;
+    height: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.3);
+}
+
+.logo {
+    font-size: 19px;
+    font-weight: 700;
+    color: #ffffff !important;
+    letter-spacing: -0.3px;
+    white-space: nowrap;
+}
+.logo:hover {
+    color: #38bdf8 !important;
+    text-shadow: 0 0 12px rgba(56, 189, 248, 0.8) !important;
+}
+
+/* search */
+.nav-search {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    max-width: 400px;
+    margin: 0 20px;
+}
+
+.nav-search input {
+    width: 100%;
+    padding: 8px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    font-size: 13.5px;
+    outline: none;
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #0f172a;
+}
+
+.nav-search button {
+    padding: 8px 16px;
+    border: 1px solid #04a7b5;
+    background-color: transparent;
+    color: #34b8d3;
+    border-radius: 8px;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.nav-search button:hover {
+    background-color: #03c6f2;
+    color: #ffffff;
+}
+
+/* navbar links */
+.nav-links {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+nav a, header a {
+    color: #f1f5f9 !important;
+    font-weight: 600 !important;
+    text-decoration: none;
+    font-size: 14.5px;
+    transition: all 0.3s ease !important;
+}
+
+nav a:hover, header a:hover, nav a.active {
+    color: #38bdf8 !important;
+    text-shadow: 0 0 12px #38bdf8, 0 0 20px #0284c7 !important;
+}
+
+
+/* ================================
+   2. Outer Box 
+================================ */
+main, .container {
+    background: rgba(15, 23, 42, 0.35) !important; 
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 32px !important;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4) !important;
+    max-width: 620px !important;
+    width: 90% !important;
+    margin: 45px auto !important;
+    padding: 50px 35px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* ================================
+   3. Inner Box 
+================================ */
+.card, main > div:first-child, .container > div:first-child {
+    background: rgba(15, 23, 42, 0.95) !important; 
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border: none !important;
+    border-radius: 20px !important;
+    padding: 45px 30px !important;
+    width: 100% !important;
+    max-width: 480px !important;
+    text-align: center !important;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 16px !important;
+}
+
+main input, .container input {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border-radius: 10px !important;
+    padding: 12px 18px !important;
+    color: #0f172a !important;
+    font-size: 14.5px !important;
+    outline: none !important;
+    width: 100% !important;
+    max-width: 400px !important;
+}
+
+/* ================================
+   4. Titles & Text
+================================ */
+h1, h2, main h1, main h2, .card-title {
+    color: #ffffff !important;
+    font-size: 28px !important;
+    font-weight: 700 !important;
+    margin: 0 !important;
+    letter-spacing: -0.5px;
+}
+h1:hover, h2:hover, main h1:hover, .card-title:hover {
+    color: #38bdf8 !important;
+    text-shadow: 0 0 18px rgba(56, 189, 248, 1), 
+                 0 0 35px rgba(56, 189, 248, 0.8) !important;
+}
+
+
+p, main p, .card-text {
+    color: #94a3b8 !important;
+    font-size: 14.5px !important;
+    line-height: 1.6 !important;
+    margin: 0 !important;
+}
+
+/* ================================
+   5. Footer 
+================================ */
+footer {
+    background: rgba(15, 23, 42, 0.45) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+    position: relative !important;
+    width: 100%;
+    text-align: center;
+    padding: 15px !important;
+    margin-top: auto;
+}
+
+.social-icons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px !important;
+}
+
+.social-btn {
+    width: 34px !important;
+    height: 34px !important;
+    border-radius: 50%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    color: white !important;
+    text-decoration: none;
+    font-size: 13px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease !important;
+}
+
+.social-btn:hover {
+    transform: translateY(-3px) scale(1.1);
+    box-shadow: 0 0 15px rgba(56, 189, 248, 0.9) !important;
+}
+
+.social-btn.facebook  { background-color: #3b5998; }
+.social-btn.twitter   { background-color: #55acee; }
+.social-btn.google    { background-color: #dd4b39; }
+.social-btn.instagram { background-color: #ac2bac; }
+.social-btn.linkedin  { background-color: #0082ca; }
+.social-btn.github    { background-color: #24292e; }
+
+footer p, footer span {
+    color: #94a3b8 !important;
+    font-size: 13px !important;
+    margin: 0;
+}
+
+footer p:hover, footer span:hover {
+    color: #38bdf8 !important;
+    text-shadow: 0 0 8px rgba(56, 189, 248, 0.6) !important;
+}
+
+/* ================================
+   6. Mobile
+================================ */
+@media (max-width: 768px) {
+    nav {
+        height: auto;
+        padding: 15px;
+        flex-direction: column;
+        gap: 12px;
+    }
+    .nav-search {
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+    }
+    body {
+        padding-top: 140px;
+    }
+}
