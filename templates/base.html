@@ -1,0 +1,73 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Library Management System{% endblock %}</title>
+    
+    <!-- Font Awesome CDN icons-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- link css-->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+  
+    <!-- Navigation Bar -->
+<nav>
+    <div class="logo">
+        📚 Library Management System
+    </div>
+
+    <!-- Search Form inside Navbar -->
+    <form class="nav-search" action="{% url 'book_list' %}" method="GET">
+        <input type="search" name="q" placeholder="Search" aria-label="Search">
+        <button type="submit">Search</button>
+    </form>
+
+    <!--links navbar-->
+    <div class="nav-links">
+        <a href="#">Home</a>
+        <a href="{% url 'book_list' %}">Catalog</a>
+        <a href="{% url 'my_loans' %}">My Loans</a>
+        <a href="{% url 'login' %}">Login</a>
+    </div>
+</nav>
+
+    <!-- Main Container & Messages -->
+    <div class="container">
+        {% if messages %}
+            {% for message in messages %}
+            
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        {% block content %}
+        {% endblock %}
+    </div>
+
+
+      <!-- footer icons -->
+    <footer>
+        <div class="social-icons">
+            <a href="#" class="social-btn facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-btn twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-btn google"><i class="fab fa-google"></i></a>
+            <a href="#" class="social-btn instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-btn linkedin"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" class="social-btn github"><i class="fab fa-github"></i></a>
+        </div>
+
+      <!-- footer -->
+        <div class="footer-copyright">
+            <p>© 2026 Library Management System</p>
+        </div>
+    </footer>
+
+
+</body>
+</html>
