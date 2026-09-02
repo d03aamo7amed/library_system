@@ -262,3 +262,23 @@ footer p:hover, footer span:hover {
         padding-top: 140px;
     }
 }
+
+
+.auth-btn {
+    background: #38bdf8;
+    color: #0f172a;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 30px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 10px;
+}
+
+.auth-btn:hover {
+    background: #03c6f2;
+    color: white;
+    box-shadow: 0 0 15px rgba(56, 189, 248, 0.6);
+}

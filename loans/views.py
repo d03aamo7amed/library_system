@@ -1,3 +1,6 @@
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django.utils import timezone
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -48,3 +51,31 @@ class BorrowBookAPIView(APIView):
             "message": f"Successfully borrowed '{book.title}'!",
             "data": LoanSerializer(loan).data
         }, status=status.HTTP_201_CREATED)
+
+@login_required
+def my_loans(request):
+    loans = Loan.objects.filter(
+        member=request.user,
+        status='BORROWED'
+    )
+
+    return render(request, 'loans/my_loans.html', {'loans': loans})
+
+
+@login_required
+def return_book(request, loan_id):
+    if request.method == 'POST':
+        loan = Loan.objects.get(
+            id=loan_id,
+            member=request.user,
+            status='BORROWED'
+        )
+
+        loan.status = 'RETURNED'
+        loan.return_date = timezone.now()
+        loan.save()
+
+        loan.book.available_copies += 1
+        loan.book.save()
+
+    return redirect('my_loans')
