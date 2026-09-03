@@ -1,0 +1,277 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home - Library Management System{% endblock %}
+
+{% block content %}
+<style>
+    /* 1. ضبط الحاوية الخارجية لصفحة الهوم بعرض 800px */
+    main, .container, .content, .main-card, .glass-container {
+        max-width: 800px !important;
+        width: 90% !important;
+    }
+
+    .home-wrapper {
+        width: 100%;
+        max-width: 800px;
+        margin: 10px auto;
+        display: flex;
+        flex-direction: column;
+        gap: 22px;
+    }
+
+    /* 2. الصف الأول: الترحيب */
+    .hero-card {
+        width: 100%;
+        background: rgba(18, 24, 38, 0.75);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 18px;
+        padding: 25px 20px;
+        text-align: center !important;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .hero-title {
+        color: #ffffff;
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 8px;
+        text-align: center !important;
+    }
+
+    /* توسيط الجملة وتوزيع كلماتها بالتساوي */
+    .hero-subtitle {
+        color: #a0aec0;
+        font-size: 0.9rem;
+        max-width: 460px; /* العرض المثالي لتقسيم الجملة على سطرين متساويين */
+        margin: 0 auto 18px auto !important;
+        line-height: 1.6;
+        text-align: center !important; /* إجبار التوسيط وإلغاء أي تأثير خارجي */
+        text-wrap: balance; /* موازنة أطوال السطور تلقائياً */
+        display: block !important;
+    }
+
+    .hero-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+    }
+
+    .btn-main {
+        padding: 9px 22px;
+        background: #2563eb;
+        color: #fff;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        text-decoration: none;
+    }
+
+    .btn-secondary {
+        padding: 9px 22px;
+        background: rgba(255, 255, 255, 0.1);
+        color: #fff;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        text-decoration: none;
+    }
+
+    /* 3. الصف الثاني: الإحصائيات */
+    .stats-grid {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+    }
+
+    .stat-card {
+        background: rgba(18, 24, 38, 0.75);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 14px;
+        padding: 16px 10px;
+        text-align: center;
+    }
+
+    .stat-number {
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: #3b82f6;
+        margin-bottom: 4px;
+    }
+
+    .stat-label {
+        color: #cbd5e1;
+        font-size: 0.85rem;
+    }
+
+    /* 4. الصف الثالث: أحدث الكتب */
+    .section-title {
+        color: #ffffff;
+        font-size: 1.3rem;
+        font-weight: 700;
+        margin-top: 5px;
+        text-align: left;
+    }
+
+    .recent-grid {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+    }
+
+    .recent-card {
+        background: rgba(18, 24, 38, 0.75);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 14px;
+        padding: 12px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .recent-cover {
+        width: 100%;
+        height: 230px;
+        object-fit: cover;
+        border-radius: 8px;
+        margin-bottom: 10px;
+    }
+
+    .recent-book-title {
+        color: #fff;
+        font-size: 0.88rem;
+        font-weight: 600;
+        line-height: 1.3em;
+        height: 2.6em;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 100%;
+        margin-bottom: 4px;
+    }
+
+    .recent-book-author {
+        color: #94a3b8;
+        font-size: 0.78rem;
+        margin-bottom: 10px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 100%;
+    }
+
+    .btn-card {
+        padding: 6px 16px;
+        font-size: 0.78rem;
+        background: rgba(255, 255, 255, 0.12);
+        color: #fff;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 15px;
+        text-decoration: none;
+        transition: background 0.2s;
+    }
+
+    .btn-card:hover {
+        background: rgba(255, 255, 255, 0.25);
+    }
+</style>
+
+<div class="home-wrapper">
+    <!-- الترحيب -->
+    <div class="hero-card">
+        <h1 class="hero-title">
+            {% if user.is_authenticated %}
+                Welcome back, {{ user.first_name|default:user.username }}!
+            {% else %}
+                Welcome to Smart Library
+            {% endif %}
+        </h1>
+        <p class="hero-subtitle">
+            Discover thousands of books, track your active loans, and explore new knowledge—all in one place.
+        </p>
+        <div class="hero-buttons">
+            <a href="{% url 'catalog:book_list' %}" class="btn-main">Browse Catalog</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'loans:my_loans' %}" class="btn-secondary">My Borrowed Books</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- الإحصائيات -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-number">{{ total_books }}</div>
+            <div class="stat-label">Total Books</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">{{ available_copies }}</div>
+            <div class="stat-label">Available Copies</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">{{ active_loans }}</div>
+            <div class="stat-label">Active Loans</div>
+        </div>
+    </div>
+
+    <!-- أحدث الكتب -->
+    <h2 class="section-title">Recently Added Books</h2>
+    <div class="recent-grid">
+        {% for book in recent_books %}
+        <div class="recent-card">
+            <div style="width: 100%;">
+                {% if book.cover_image %}
+                    <img src="{{ book.cover_image.url }}" alt="{{ book.title }}" class="recent-cover">
+                {% else %}
+                    <img src="https://via.placeholder.com/200x300?text=No+Cover" alt="No Cover" class="recent-cover">
+                {% endif %}
+                <div class="recent-book-title" title="{{ book.title }}">{{ book.title }}</div>
+                <div class="recent-book-author">{{ book.author }}</div>
+            </div>
+            <a href="{% url 'catalog:book_list' %}" class="btn-card">View Catalog</a>
+        </div>
+        {% empty %}
+        <p style="color: #94a3b8; grid-column: 1 / -1;">No books available.</p>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const counters = document.querySelectorAll('.stat-number');
+        counters.forEach(counter => {
+            const target = +counter.innerText;
+            if (isNaN(target)) return;
+            
+            let count = 0;
+            const speed = target / 25; // سرعة العداد
+
+            const updateCount = () => {
+                count += Math.ceil(speed);
+                if (count < target) {
+                    counter.innerText = count;
+                    setTimeout(updateCount, 40);
+                } else {
+                    counter.innerText = target;
+                }
+            };
+            updateCount();
+        });
+    });
+</script>
+
+
+{% endblock %}

@@ -1,20 +1,144 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Library Catalog - Library Management System{% endblock %}
 
 {% block content %}
-<main class="catalog-container">
-    <h1>Library Catalog</h1>
+<!-- كود CSS الخاص بالكتالوج والتصميم الجديد -->
+<style>
+    /* توسيع الحاوية الخارجية الشفافة */
+    .container, 
+    .wrapper, 
+    body > div:first-child,
+    main {
+        width: 95% !important;
+        max-width: 1350px !important;
+        margin: 30px auto !important;
+    }
 
-    <!-- Search Box -->
-    <div class="search-box">
-        <input type="text" id="bookSearch" placeholder="Search by title or author...">
+    /* قسم الـ Hero للعنوان والبحث */
+    .catalog-hero {
+        text-align: center;
+        margin-bottom: 40px;
+        padding: 10px 0 10px;
+        }
+    /* عنوان الكتالوج مع محاذاة الأيقونة */
+    .catalog-title {
+        font-size: 2.2rem;
+        font-weight: 700;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+    }
+
+    /* الأيقونة ملونة بالأزرق الشفاف */
+    .title-icon {
+        color: #3b82f6;
+        font-size: 2rem;
+    }
+
+    /* التدرج الملون مطبق على النص فقط */
+    .title-text {
+        background: linear-gradient(135deg, #ffffff 30%, #a5f3fc 70%, #3b82f6 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    /* الوصف السفلّي للعنوان */
+    .catalog-subtitle {
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 0.95rem;
+        margin-bottom: 25px;
+    }
+
+    /* شريط البحث الزجاجي */
+    .catalog-search-form {
+        max-width: 520px;
+        margin: 0 auto;
+    }
+
+    .search-input-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+    .search-input-wrapper .search-icon {
+        position: absolute;
+        left: 20px;
+        color: rgba(255, 255, 255, 0.4);
+        font-size: 1rem;
+        pointer-events: none;
+        transition: color 0.3s ease;
+    }
+
+    .search-input-wrapper input {
+        width: 100%;
+        padding: 14px 20px 14px 50px !important;
+        background: rgba(255, 255, 255, 0.06) !important;
+        border: 1px solid rgba(255, 255, 255, 0.15) !important;
+        border-radius: 50px !important;
+        color: #ffffff !important;
+        font-size: 0.95rem;
+        backdrop-filter: blur(10px);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        outline: none !important;
+    }
+
+    .search-input-wrapper input::placeholder {
+        color: rgba(255, 255, 255, 0.35);
+    }
+
+    /* تأثير التفاعل Focus عند الكتابة أو الضغط */
+    .search-input-wrapper input:focus {
+        background: rgba(255, 255, 255, 0.12) !important;
+        border-color: #3b82f6 !important;
+        box-shadow: 0 0 25px rgba(59, 130, 246, 0.35) !important;
+        transform: translateY(-2px);
+    }
+
+    .search-input-wrapper input:focus + .search-icon,
+    .search-input-wrapper:focus-within .search-icon {
+        color: #3b82f6;
+    }
+</style>
+
+<main class="catalog-container">
+
+    <!-- قسم الهيدر والبحث المطور زجاجياً -->
+    <div class="catalog-hero">
+        <h1 class="catalog-title">
+            <i class="fas fa-book-open title-icon"></i>
+            <span class="title-text">Explore Collection</span>
+        </h1>
+        <p class="catalog-subtitle">Explore our collection of tech & programming resources</p>
+
+        <form action="{% url 'catalog:book_list' %}" method="GET" class="catalog-search-form">
+            <div class="search-input-wrapper">
+                <i class="fas fa-search search-icon"></i>
+                <input 
+                    type="search" 
+                    id="bookSearch"
+                    name="q" 
+                    placeholder="Search by title, author, or category..." 
+                    value="{{ request.GET.q|default:'' }}"
+                    autocomplete="off">
+            </div>
+        </form>
     </div>
 
-    <!-- Books Container -->
-    <div class="books-container">
+    <!-- Books Grid Container -->
+    <div class="book-grid">
         {% for book in books %}
         <div class="book-card">
+            {% if book.cover_image %}
+                <img src="{{ book.cover_image.url }}" alt="{{ book.title }}" class="book-cover">
+            {% else %}
+                <img src="https://via.placeholder.com/200x300?text=No+Cover" alt="No Cover" class="book-cover">
+            {% endif %}
+
             <h2 class="book-title">{{ book.title }}</h2>
 
             <p>
@@ -30,12 +154,12 @@
             </p>
 
             {% if book.available_copies > 0 %}
-                <form action="{% url 'borrow_book' book.id %}" method="post">
+                <form action="{% url 'loans:borrow_book' book.id %}" method="post">
                     {% csrf_token %}
-                    <button type="submit" class="borrow-btn">Borrow</button>
+                    <button type="submit" class="btn-borrow">Borrow Now</button>
                 </form>
             {% else %}
-                <button class="borrow-btn" disabled style="background-color: #ccc; cursor: not-allowed;">Out of Stock</button>
+                <button class="btn-disabled" disabled>Out of Stock</button>
             {% endif %}
         </div>
         {% empty %}
@@ -44,4 +168,33 @@
     </div>
 
 </main>
+
+<!-- كود الجافاسكريبت للفلترة اللحظية (محفوظ بالكامل بجميع معرفاته) -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('bookSearch');
+        
+        if (searchInput) {
+            searchInput.addEventListener('input', function() {
+                const filter = this.value.toLowerCase().trim();
+                const cards = document.querySelectorAll('.book-card');
+                
+                cards.forEach(card => {
+                    const titleEl = card.querySelector('.book-title');
+                    const authorEl = card.querySelector('.book-author');
+                    
+                    const title = titleEl ? titleEl.textContent.toLowerCase() : '';
+                    const author = authorEl ? authorEl.textContent.toLowerCase() : '';
+                    
+                    if (title.includes(filter) || author.includes(filter)) {
+                        card.style.display = '';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        }
+    });
+</script>
+
 {% endblock %}

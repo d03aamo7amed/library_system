@@ -1,36 +1,116 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block title %}My Loans - Library Management System{% endblock %}
+{% block title %}My Borrowed Books - Library System{% endblock %}
 
 {% block content %}
+<style>
+    .loans-container {
+        width: 95%;
+        max-width: 800px;
+        margin: 30px auto;
+        text-align: center;
+    }
+
+    .loans-title {
+        color: #fff;
+        font-size: 2rem;
+        margin-bottom: 5px;
+    }
+
+    .loans-subtitle {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.95rem;
+        margin-bottom: 30px;
+    }
+
+    .loans-list {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .loan-card {
+        display: flex;
+        align-items: center;
+        background: rgba(20, 20, 32, 0.85);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 14px;
+        padding: 16px 22px;
+        backdrop-filter: blur(10px);
+        transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .loan-card:hover {
+        border-color: rgba(255, 255, 255, 0.35);
+        transform: translateY(-2px);
+    }
+
+    .loan-cover {
+        width: 70px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 8px;
+        margin-right: 20px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        flex-shrink: 0;
+    }
+
+    .loan-details {
+        flex-grow: 1;
+        text-align: left;
+    }
+
+    .loan-book-title {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #fff;
+        margin-bottom: 6px;
+    }
+
+    .loan-meta {
+        font-size: 0.88rem;
+        color: rgba(255, 255, 255, 0.75);
+        margin: 4px 0;
+    }
+
+    .loan-action {
+        margin-left: 15px;
+    }
+</style>
+
 <main class="loans-container">
-    <h1>My Borrowed Books</h1>
+    <h1 class="loans-title">My Borrowed Books</h1>
+    <p class="loans-subtitle">Manage your active loans and return dates</p>
 
-    <!-- Page Header -->
-<div class="page-header">
-    <p>Manage your active loans and return dates</p>
-</div>
+    <div class="loans-list">
+        {% for loan in loans %}
+        <div class="loan-card">
+            <!-- صورة الغلاف -->
+            {% if loan.book.cover_image %}
+                <img src="{{ loan.book.cover_image.url }}" alt="{{ loan.book.title }}" class="loan-cover">
+            {% else %}
+                <img src="https://via.placeholder.com/70x100?text=No+Cover" alt="No Cover" class="loan-cover">
+            {% endif %}
 
-   <!-- Loop-->
-    {% for loan in loans %}
-    <div class="loan-card">
-       
-            <!-- Display book details and borrowing information -->
-             <div class="loan-info">
-             <h2>{{ loan.book.title }}</h2>
-             <p><strong>Author:</strong> {{ loan.book.author }}</p>
+            <!-- تفاصيل الكتاب -->
+            <div class="loan-details">
+                <div class="loan-book-title">{{ loan.book.title }}</div>
+                <div class="loan-meta"><strong>Author:</strong> {{ loan.book.author }}</div>
+                <div class="loan-meta"><strong>Borrow Date:</strong> {{ loan.borrow_date|date:"Y-m-d" }}</div>
+            </div>
 
-            <!-- Format the borrow date-->
-            <p><strong>Borrow Date:</strong> {{ loan.borrow_date|date:"Y-m-d" }}</p>
+            <!-- زر الإعادة -->
+            <div class="loan-action">
+                <form action="{% url 'loans:return_book' loan.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-borrow">Return Book</button>
+                </form>
+            </div>
         </div>
-        
-        <form action="{% url 'return_book' loan.id %}" method="post">
-            {% csrf_token %}
-            <button type="submit" class="return-btn">Return</button>
-        </form>
+        {% empty %}
+            <p style="color: #ccc; margin-top: 30px;">You have no active loans right now.</p>
+        {% endfor %}
     </div>
-    {% empty %}
-    <p class="no-loans">You have not borrowed any books yet.</p>
-    {% endfor %}
 </main>
 {% endblock %}

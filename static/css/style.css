@@ -282,3 +282,321 @@ footer p:hover, footer span:hover {
     color: white;
     box-shadow: 0 0 15px rgba(56, 189, 248, 0.6);
 }
+
+.book-cover {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 12px;
+}
+
+
+
+/* الحاوية المظلمة الرئيسية */
+.catalog-container {
+    width: 95%;              /* استخدام 95% من عرض الشاشة */
+    max-width: 1300px;        /* زيادة الحد الأقصى للعرض لتوسيع Box */
+    margin: 40px auto;        /* تتوسط الصفحة تلقائياً */
+    padding: 30px;
+    background: rgba(20, 20, 30, 0.75); /* خلفية معتمة بـ Blur */
+    backdrop-filter: blur(12px);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* التأكد من توزيع الأوردة داخل الشبكة بعد التوسيع */
+.book-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    margin-top: 25px;
+}
+
+/* 3. ضبط أبعاد كارت الكتاب والصورة */
+.book-card {
+    background: rgba(20, 20, 30, 0.85);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+}
+
+.book-cover {
+    width: 100%;
+    height: 260px;
+    object-fit: contain;
+    background-color: rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+
+/* توسيع الحاوية الشفافة الكبرى الخارجية */
+main,
+.catalog-container,
+.main-content {
+    width: 92% !important;
+    max-width: 1300px !important; /* التحكم في مدى اتساع الكارت الخارجي */
+    margin: 30px auto !important;
+    padding: 35px !important;
+    background: rgba(15, 15, 25, 0.8) !important; /* الخلفية الشفافة */
+    backdrop-filter: blur(15px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* ضبط خانة البحث والعنوان الداخلي ليتناسبا مع العرض الجديد */
+.search-box {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto 30px auto;
+}
+
+/* إجبار الكتب على الانتشار في 3 أعمدة داخل الحاوية الموسعة */
+.book-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 25px !important;
+}
+
+/* إخفاء القائمة المنقطة لشروط كلمة المرور فقط */
+form ul:not(.errorlist) {
+    display: none !important;
+}
+
+
+/* توسيط عنوان الكتالوج */
+.catalog-container h1, 
+.catalog-container h2 {
+    text-align: center !important;
+    margin-bottom: 20px;
+}
+
+/* توسيط حاوية البحث وبوكس الإدخال */
+.search-box {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100%;
+    margin: 0 auto 30px auto !important;
+}
+
+.search-box input {
+    width: 100%;
+    max-width: 450px;       /* التحكم في عرض خانة البحث */
+    text-align: center;     /* لتوسيط النص المكتوب داخل الخانة */
+    margin: 0 auto;
+}
+
+.btn-return {
+    background: linear-gradient(135deg, #2563eb, #3b82f6);
+    color: #ffffff;
+    border: none;
+    padding: 8px 18px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.btn-return:hover {
+    background: linear-gradient(135deg, #1d4ed8, #2563eb);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(37, 99, 235, 0.45);
+}
+
+.btn-return:active {
+    transform: translateY(0);
+}
+
+/* زر الاستعارة (Borrow) */
+.btn-borrow {
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    color: #ffffff;
+    border: none;
+    padding: 10px 18px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 12px;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+}
+
+.btn-borrow:hover {
+    background: linear-gradient(135deg, #1d4ed8, #1e40af);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.4);
+}
+
+.btn-borrow:active {
+    transform: translateY(0);
+}
+
+/* زر غير المتاح (Out of Stock) */
+.btn-disabled {
+    background: rgba(255, 255, 255, 0.08);
+    color: #9ca3af;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 10px 18px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: not-allowed;
+    width: 100%;
+    margin-top: 12px;
+}
+
+
+/* تنسيق صندوق الرسائل (Alerts) */
+.messages, .alert {
+    color: #ffffff !important; /* جعل لون النص أبيض ناصع */
+    text-align: center;
+    font-weight: 600;
+    padding: 14px 20px;
+    border-radius: 10px;
+    margin: 15px auto;
+    max-width: 500px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+/* لون الرسالة عند نجاح الاستعارة */
+.alert-success, .success {
+    background: linear-gradient(135deg, #059669, #10b981) !important;
+}
+
+/* لون الرسالة عند وجود تحذير (مستعير الكتاب مسبقاً) */
+.alert-warning, .warning {
+    background: linear-gradient(135deg, #d97706, #f59e0b) !important;
+}
+
+/* لون الرسالة عند حدوث خطأ */
+.alert-error, .error {
+    background: linear-gradient(135deg, #dc2626, #ef4444) !important;
+}
+
+
+
+/* 1. حركة رفع الكرت والإضاءة عند المرور عليه */
+.recent-card, .book-card, .stat-card {
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                box-shadow 0.3s ease, 
+                border-color 0.3s ease !important;
+}
+
+.recent-card:hover, .book-card:hover, .stat-card:hover {
+    transform: translateY(-6px) scale(1.01);
+    border-color: rgba(59, 130, 246, 0.4) !important;
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.4), 0 0 20px rgba(59, 130, 246, 0.15) !important;
+}
+
+/* 2. لمعة زجاجية متحركة للأزرار (Button Shine Effect) */
+.btn-main, .btn-card, .btn-secondary, button[type="submit"] {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.btn-main::before, .btn-card::before, button[type="submit"]::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.25),
+        transparent
+    );
+    transform: skewX(-20deg);
+    transition: left 0.6s ease;
+}
+
+.btn-main:hover::before, .btn-card:hover::before, button[type="submit"]:hover::before {
+    left: 140%;
+}
+
+/* 3. الشارة المضيئة للمكان المتاح (Pulse Badge) */
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.pulse-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #10b981;
+    box-shadow: 0 0 8px #10b981;
+    animation: pulseGlow 1.8s infinite;
+}
+
+.pulse-dot.unavailable {
+    background-color: #ef4444;
+    box-shadow: 0 0 8px #ef4444;
+}
+
+@keyframes pulseGlow {
+    0% { transform: scale(0.95); opacity: 0.8; }
+    50% { transform: scale(1.2); opacity: 1; box-shadow: 0 0 12px currentColor; }
+    100% { transform: scale(0.95); opacity: 0.8; }
+}
+
+.logout-btn {
+    background: transparent;
+    border: none;
+    color: inherit; /* يأخذ نفس لون روابط الـ Nav */
+    font: inherit;
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.2s ease;
+}
+
+.logout-btn:hover {
+    color: #3b82f6; /* تغيير اللون عند التمرير بالماوس */
+}
+
+/* ضبط نموذج وزر تسجيل الخروج ليطابق الروابط تماماً */
+.nav-links form {
+    display: inline-flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+.logout-btn {
+    background: transparent !important;
+    border: none !important;
+    color: #ffffff !important;
+    font-family: inherit !important;
+    font-size: inherit !important;
+    font-weight: inherit !important;
+    cursor: pointer;
+    padding: 0 !important;
+    margin: 0 !important;
+    line-height: normal;
+    transition: color 0.2s ease;
+}
+
+.logout-btn:hover {
+    color: #3b82f6 !important;
+}

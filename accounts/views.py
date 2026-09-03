@@ -8,7 +8,7 @@ def signup_view(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Account created successfully. Please log in.')
-            return redirect('login')
+            return redirect('accounts:login')  # تحويل لصفحة اللوجن بعد النجاح
     else:
         form = UserCreationForm()
     return render(request, 'accounts/signup.html', {'form': form})

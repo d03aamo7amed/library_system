@@ -10,48 +10,205 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <!-- link css-->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <style>
+    /* نظام التنبيهات العائمة */
+    .toast-container {
+        position: fixed;
+        top: 25px;
+        right: 25px;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        pointer-events: none;
+    }
+
+    /* كارت التنبيه */
+    .toast-card {
+        pointer-events: auto;
+        min-width: 280px;
+        max-width: 380px;
+        background: rgba(18, 24, 38, 0.95) !important;
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(59, 130, 246, 0.4);
+        border-radius: 12px;
+        padding: 14px 18px;
+        color: #ffffff;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        animation: toastSlideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .toast-card.success { border-color: rgba(16, 185, 129, 0.5); }
+    .toast-card.error { border-color: rgba(239, 68, 68, 0.5); }
+
+    /* شريط التقدم السفلّي */
+    .toast-progress {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 3px;
+        width: 100%;
+        background: #3b82f6;
+        animation: toastProgress 4s linear forwards;
+    }
+    .toast-card.success .toast-progress { background: #10b981; }
+    .toast-card.error .toast-progress { background: #ef4444; }
+
+    @keyframes toastSlideIn {
+        from { transform: translateX(120%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    }
+    @keyframes toastSlideOut {
+        from { transform: translateX(0); opacity: 1; }
+        to { transform: translateX(120%); opacity: 0; }
+    }
+    @keyframes toastProgress {
+        from { width: 100%; }
+        to { width: 0%; }
+    }
+
+    /* كود إضاءة خانات الكتابة عند الضغط عليها */
+    input[type="text"], input[type="password"], input[type="email"] {
+        transition: all 0.25s ease-in-out !important;
+        border: 1px solid rgba(255, 255, 255, 0.15) !important;
+        outline: none !important;
+    }
+
+    input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus {
+        border-color: #3b82f6 !important;
+        box-shadow: 0 0 12px rgba(59, 130, 246, 0.4) !important;
+        transform: scale(1.015);
+        background: rgba(255, 255, 255, 0.95) !important;
+        color: #000 !important;
+    }
+
+
+        /* موجه لكافة عناصر الهيدر لضمان التطابق التام */
+    .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+    }
+
+    /* إزالة أي مسافات زائدة من النموذج */
+    .nav-links form {
+        display: inline-flex !important;
+        align-items: center !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    /* توحيد التنسيقات بين الروابط وزر Logout */
+    .nav-links a, 
+    .nav-links .logout-btn {
+        color: #ffffff !important;
+        text-decoration: none !important;
+        font-family: inherit !important;
+        font-size: 0.95rem !important;
+        font-weight: 500 !important;
+        background: transparent !important;
+        border: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        cursor: pointer;
+        line-height: normal !important;
+        transition: color 0.2s ease;
+    }
+
+    /* توحيد لون التمرير (Hover) */
+    .nav-links a:hover, 
+    .nav-links .logout-btn:hover {
+        color: #3b82f6 !important;
+    }
+
+
+        /* محاذاة عناصر الهيدر بالكامل */
+    nav {
+        display: flex;
+        align-items: center !important; /* محاذاة عمودية في المنتصف */
+        justify-content: space-between;
+    }
+
+    /* محاذاة نموذج البحث في المنتصف تماماً */
+    .nav-search {
+        display: flex;
+        align-items: center;
+        gap: 8px; /* مسافة بسيطة بين مربع النص وزر البحث */
+        margin: 0 auto; /* يثبته في منتصف المسافة بين اللوجو والروابط */
+    }
+
+    /* توحيد ارتفاع مدخل البحث والزر لخط واحد */
+    .nav-search input,
+    .nav-search button {
+        height: 38px; /* ارتفاع موحد */
+        box-sizing: border-box;
+        vertical-align: middle;
+    }
+    </style>
 </head>
 
 <body>
-  
     <!-- Navigation Bar -->
-<nav>
-    <div class="logo">
-        📚 Library Management System
-    </div>
+    <nav>
+        <div class="logo">
+            📚 ReadSpace
+        </div>
 
-    <!-- Search Form inside Navbar -->
-    <form class="nav-search" action="{% url 'book_list' %}" method="GET">
-        <input type="search" name="q" placeholder="Search" aria-label="Search">
-        <button type="submit">Search</button>
-    </form>
+        <!-- Search Form inside Navbar -->
+        <form class="nav-search" action="{% url 'catalog:book_list' %}" method="GET">
+            <input type="search" name="q" placeholder="Search" aria-label="Search">
+            <button type="submit">Search</button>
+        </form>
 
-    <!--links navbar-->
-    <div class="nav-links">
-        <a href="#">Home</a>
-        <a href="{% url 'book_list' %}">Catalog</a>
-        <a href="{% url 'my_loans' %}">My Loans</a>
-        <a href="{% url 'login' %}">Login</a>
-    </div>
-</nav>
+        <!-- links navbar -->
+        <div class="nav-links">
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'catalog:book_list' %}">Explore</a>
 
-    <!-- Main Container & Messages -->
+            {% if user.is_authenticated %}
+                <a href="{% url 'loans:my_loans' %}">My Books</a>
+                
+                <!-- نموذج تسجيل الخروج (طريقة POST الآمنة في Django) -->
+                <form action="{% url 'accounts:logout' %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="logout-btn">Logout</button>
+                </form>
+            {% else %}
+                <a href="{% url 'accounts:login' %}">Login</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <!-- Main Container -->
     <div class="container">
-        {% if messages %}
-            {% for message in messages %}
-            
-                <div class="alert alert-{{ message.tags }}">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endif %}
-
         {% block content %}
         {% endblock %}
     </div>
 
+    <!-- التنبيهات العائمة -->
+    <div class="toast-container" id="toastContainer">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="toast-card {{ message.tags }}" id="toast-{{ forloop.counter }}">
+                    <div class="toast-content" style="font-size: 0.9rem; font-weight: 500;">
+                        {{ message }}
+                    </div>
+                    <div class="toast-progress"></div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
 
-      <!-- footer icons -->
+    <!-- Footer -->
     <footer>
         <div class="social-icons">
             <a href="#" class="social-btn facebook"><i class="fab fa-facebook-f"></i></a>
@@ -62,12 +219,48 @@
             <a href="#" class="social-btn github"><i class="fab fa-github"></i></a>
         </div>
 
-      <!-- footer -->
         <div class="footer-copyright">
             <p>© 2026 Library Management System</p>
         </div>
     </footer>
 
+    <!-- Scripts -->
+    <script>
+        // إخفاء التنبيهات تلقائياً بعد 4 ثوانٍ
+        document.addEventListener("DOMContentLoaded", function() {
+            const toasts = document.querySelectorAll('.toast-card');
+            toasts.forEach(toast => {
+                setTimeout(() => {
+                    toast.style.animation = 'toastSlideOut 0.4s ease forwards';
+                    setTimeout(() => toast.remove(), 400);
+                }, 4000);
+            });
 
+            // إظهار وإخفاء كلمة السر
+            document.querySelectorAll('input[type="password"]').forEach(input => {
+                const wrapper = document.createElement('div');
+                wrapper.style.position = 'relative';
+                wrapper.style.width = '100%';
+                input.parentNode.insertBefore(wrapper, input);
+                wrapper.appendChild(input);
+
+                const toggleBtn = document.createElement('span');
+                toggleBtn.innerHTML = '👁️';
+                toggleBtn.style.cssText = 'position: absolute; right: 12px; top: 50%; transform: translateY(-50%); cursor: pointer; opacity: 0.6; font-size: 0.9rem; user-select: none; z-index: 10;';
+                
+                toggleBtn.addEventListener('click', () => {
+                    if (input.type === 'password') {
+                        input.type = 'text';
+                        toggleBtn.style.opacity = '1';
+                    } else {
+                        input.type = 'password';
+                        toggleBtn.style.opacity = '0.6';
+                    }
+                });
+                
+                wrapper.appendChild(toggleBtn);
+            });
+        });
+    </script>
 </body>
 </html>

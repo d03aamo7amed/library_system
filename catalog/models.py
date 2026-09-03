@@ -9,7 +9,7 @@ class Book(models.Model):
     total_copies = models.PositiveIntegerField(default=1, verbose_name="Total Copies")
     available_copies = models.PositiveIntegerField(default=1, verbose_name="Available Copies")
     cover = models.ImageField(upload_to='covers/', blank=True, null=True, verbose_name="Book Cover")
-
+    cover_image = models.ImageField(upload_to='book_covers/', blank=True, null=True, verbose_name="Book Cover Image")
     class Meta:
         verbose_name = "Book"
         verbose_name_plural = "Books"

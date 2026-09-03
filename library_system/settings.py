@@ -64,7 +64,7 @@ ROOT_URLCONF = 'library_system.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'], 
+        'DIRS': [BASE_DIR / 'templates'],  # مسار مجلد التمبلتس الرئيسي
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -141,3 +141,11 @@ MAILERS = {
 }
 
 LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = 'catalog:book_list'   
+LOGOUT_REDIRECT_URL = 'accounts:login'
+
+import os
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+LOGOUT_REDIRECT_URL = '/'
