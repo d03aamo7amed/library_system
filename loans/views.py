@@ -19,7 +19,6 @@ def borrow_book(request, book_id):
     if request.method == 'POST':
         book = get_object_or_404(Book, id=book_id)
         
-        # التأكد مما إذا كان المستخدم مستعيراً للكتاب بالفعل
         if Loan.objects.filter(member=request.user, book=book, status='BORROWED').exists():
             messages.warning(request, f"أنت مستعير كتاب '{book.title}' بالفعل!")
         elif book.available_copies <= 0:
@@ -30,7 +29,6 @@ def borrow_book(request, book_id):
             book.save()
             messages.success(request, f"تمت استعارة كتاب '{book.title}' بنجاح!")
             
-            # التوجيه لصفحة استعاراتي لرؤية الكتاب مباشرة
             return redirect('loans:my_loans')
 
     return redirect('catalog:book_list')

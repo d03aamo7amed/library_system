@@ -1,12 +1,13 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Library Catalog - Library Management System{% endblock %}
+{% block title %}Library Catalog - ReadSpace{% endblock %}
 
 {% block content %}
-<!-- كود CSS الخاص بالكتالوج والتصميم الجديد -->
+
+<!-- كود CSS الخاص بالكتالوج   -->
+ 
 <style>
-    /* توسيع الحاوية الخارجية الشفافة */
     .container, 
     .wrapper, 
     body > div:first-child,
@@ -16,13 +17,11 @@
         margin: 30px auto !important;
     }
 
-    /* قسم الـ Hero للعنوان والبحث */
     .catalog-hero {
         text-align: center;
         margin-bottom: 40px;
         padding: 10px 0 10px;
         }
-    /* عنوان الكتالوج مع محاذاة الأيقونة */
     .catalog-title {
         font-size: 2.2rem;
         font-weight: 700;
@@ -33,27 +32,23 @@
         gap: 12px;
     }
 
-    /* الأيقونة ملونة بالأزرق الشفاف */
     .title-icon {
         color: #3b82f6;
         font-size: 2rem;
     }
 
-    /* التدرج الملون مطبق على النص فقط */
     .title-text {
         background: linear-gradient(135deg, #ffffff 30%, #a5f3fc 70%, #3b82f6 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
     }
 
-    /* الوصف السفلّي للعنوان */
     .catalog-subtitle {
         color: rgba(255, 255, 255, 0.6);
         font-size: 0.95rem;
         margin-bottom: 25px;
     }
 
-    /* شريط البحث الزجاجي */
     .catalog-search-form {
         max-width: 520px;
         margin: 0 auto;
@@ -91,7 +86,6 @@
         color: rgba(255, 255, 255, 0.35);
     }
 
-    /* تأثير التفاعل Focus عند الكتابة أو الضغط */
     .search-input-wrapper input:focus {
         background: rgba(255, 255, 255, 0.12) !important;
         border-color: #3b82f6 !important;
@@ -169,7 +163,7 @@
 
 </main>
 
-<!-- كود الجافاسكريبت للفلترة اللحظية (محفوظ بالكامل بجميع معرفاته) -->
+<!-- كود الجافاسكريبت للفلترة اللحظية  -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const searchInput = document.getElementById('bookSearch');

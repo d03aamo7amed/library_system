@@ -60,11 +60,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const searchInput = document.getElementById('bookSearch');
 
     if (searchInput) {
-        // تحديد كروت الكتب تلقائياً
         const bookCards = document.querySelectorAll('.book-card, .card, [class*="card"]');
         const form = searchInput.closest('form');
 
-        // منع إعادة تحميل الصفحة عند الضغط على Enter للاعتمد على الفلترة اللحظية
         if (form) {
             form.addEventListener('submit', function(e) {
                 e.preventDefault();
